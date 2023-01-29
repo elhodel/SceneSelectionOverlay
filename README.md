@@ -1,6 +1,6 @@
 # Scene Selection Overlay
 
-This package provides an Toolbar Overlay for the SceneView to easily change between Scenes.
+This package for Unity provides a Toolbar Overlay for the SceneView to easily change between Scenes.
 
 
 # Features
@@ -40,6 +40,18 @@ This Setting defines how Scenes that did not match any group should be displayed
 * Hidden: Don't Show Scenes
 * Flat: Show Scenes directly in the Root of the Menu
 * Nested: Show Scenes in the Submenu "Build"  
+
+## Favorite Scenes
+
+Add your favorite Scenes in the Settings so they always appear at the top of the Overlay Menu.
+
+FavoriteScenesShowOptions allows you to select how the favorites should be handled.
+
+* Hidden: Don't Show Scenes
+* Flat: Show Scenes directly in the Root of the Menu
+* Nested: Show Scenes in the Submenu "Favorites"  
+
+Scenes can easily be added to the Favorites with right clicking the SceneAsset in the Project Window and Select "Add/Remove to Favorites"
 
 
 # Installing with Unity Package Manager

@@ -39,6 +39,7 @@ namespace elhodel.SceneSelectionOverlay
 
         [Tooltip("How Favorite Scenes should be displayed in Menu")]
         public ShowOption FavoriteScenesShowOption = ShowOption.Flat;
+        [Tooltip("Favorite Scenes that should be displayed at the Top of the Menu")]
         public List<SceneAsset> FavoriteScenes = new List<SceneAsset>();
 
 
