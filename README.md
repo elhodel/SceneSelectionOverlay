@@ -60,6 +60,8 @@ To install this project as a Git dependency using the Unity Package Manager, add
 
 "ch.elhodel.scene-selection-overlay": "https://github.com/elhodel/SceneSelectionOverlay.git"
 
+Or open the Package Manager in Unity and add the Package with "Add Package from git URL..." and paste this URL: "https://github.com/elhodel/SceneSelectionOverlay.git"
+
 You will need to have Git installed and available in your system's PATH.
 
 # Credits
