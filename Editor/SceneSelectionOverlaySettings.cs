@@ -47,6 +47,24 @@ namespace elhodel.SceneSelectionOverlay
             Save(true);
         }
 
+        public void AddFavoriteScene(SceneAsset sceneToAdd)
+        {
+            if (FavoriteScenes.Contains(sceneToAdd))
+            {
+                return;
+            }
+            FavoriteScenes.Add(sceneToAdd);
+            Save();
+        }
+
+        public void RemoveFavoriteScene(SceneAsset sceneToAdd)
+        {
+            if (FavoriteScenes.Contains(sceneToAdd))
+            {
+                FavoriteScenes.Remove(sceneToAdd);
+                Save();
+            }
+        }
 
         public enum ShowOption
         {
@@ -54,6 +72,43 @@ namespace elhodel.SceneSelectionOverlay
             Flat,
             Nested,
         }
+
+
+        private const string _addFavoriteMenuItemPath = "Assets/Add to Favorite";
+        private const int _favoriteMenuItemOrder = 2000;
+        [MenuItem(_addFavoriteMenuItemPath, false, _favoriteMenuItemOrder)]
+        private static void SetAsFavoriteMenuItem()
+        {
+            SceneAsset sceneAsset = Selection.activeObject as SceneAsset;
+
+            SceneSelectionOverlaySettings.instance.AddFavoriteScene(sceneAsset);
+        }
+
+        [MenuItem(_addFavoriteMenuItemPath, true)]
+        private static bool SetAsFavoriteMenuItemValidator()
+        {
+            SceneAsset sceneAsset = Selection.activeObject as SceneAsset;
+            return sceneAsset != null && !SceneSelectionOverlaySettings.instance.FavoriteScenes.Contains(sceneAsset);
+        }
+
+
+        private const string _removeFavoriteMenuItemPath = "Assets/Remove from Favorite";
+
+        [MenuItem(_removeFavoriteMenuItemPath, false, _favoriteMenuItemOrder + 1)]
+        private static void RemoveFavoriteMenuItem()
+        {
+            SceneAsset sceneAsset = Selection.activeObject as SceneAsset;
+
+            SceneSelectionOverlaySettings.instance.RemoveFavoriteScene(sceneAsset);
+        }
+
+        [MenuItem(_removeFavoriteMenuItemPath, true)]
+        private static bool RemoveFavoriteMenuItemValidator()
+        {
+            SceneAsset sceneAsset = Selection.activeObject as SceneAsset;
+            return sceneAsset != null && SceneSelectionOverlaySettings.instance.FavoriteScenes.Contains(sceneAsset);
+        }
+
     }
 
 
