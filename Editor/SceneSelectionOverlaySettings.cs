@@ -37,6 +37,11 @@ namespace elhodel.SceneSelectionOverlay
         [Tooltip("Groups of Scenes that should be be added to Menu")]
         public List<SceneGroup> SceneGroups = new List<SceneGroup>();
 
+        [Tooltip("How Favorite Scenes should be displayed in Menu")]
+        public ShowOption FavoriteScenesShowOption = ShowOption.Flat;
+        public List<SceneAsset> FavoriteScenes = new List<SceneAsset>();
+
+
         internal void Save()
         {
             Save(true);

@@ -30,6 +30,7 @@ namespace elhodel.SceneSelectionOverlay
             public const string Id = "SceneSelectionOverlay/DropdownToggle";
             public const string OtherSceneFolderName = "Others";
             public const string BuildSceneFolderName = "Build";
+            public const string FavoriteSceneFolderName = "Favorites";
 
             private class SceneMenuItem
             {
@@ -127,6 +128,7 @@ namespace elhodel.SceneSelectionOverlay
 
                     SortScenes();
 
+                    CreateMenuEntry(menu, FavoriteSceneFolderName, currentScenePath, onClickCallback, false, true);
                     CreateMenuEntry(menu, BuildSceneFolderName, currentScenePath, onClickCallback, false, true);
 
                     foreach (string sceneGroupName in SceneSelectionOverlaySettings.instance.SceneGroups.Select(g => g.Name))
@@ -156,23 +158,8 @@ namespace elhodel.SceneSelectionOverlay
             {
                 SceneMenuData sceneMenuData = new();
 
-                var menu = new GenericMenu();
-                if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide)
-                {
-                    foreach (var builderScene in EditorBuildSettings.scenes)
-                    {
-                        string menuItemPath = "";
-
-                        if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
-                        {
-                            menuItemPath = BuildSceneFolderName + "/";
-                        }
-
-                        sceneMenuData.AddItem(BuildSceneFolderName, builderScene.path, menuItemPath);
-                    }
-                }
-
-
+                LoadBuildScenes(sceneMenuData);
+                LoadFavoriteScenes(sceneMenuData);
                 var scenePaths = AssetDatabase.FindAssets("t:Scene").Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
 
                 foreach (var scenePath in scenePaths)
@@ -216,7 +203,41 @@ namespace elhodel.SceneSelectionOverlay
                 return sceneMenuData;
             }
 
+            private void LoadBuildScenes(SceneMenuData sceneMenuData)
+            {
+                if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide)
+                {
+                    foreach (var builderScene in EditorBuildSettings.scenes)
+                    {
+                        string menuItemPath = "";
 
+                        if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
+                        {
+                            menuItemPath = BuildSceneFolderName + "/";
+                        }
+
+                        sceneMenuData.AddItem(BuildSceneFolderName, builderScene.path, menuItemPath);
+                    }
+                }
+            }
+
+            private void LoadFavoriteScenes(SceneMenuData sceneMenuData)
+            {
+                if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide && SceneSelectionOverlaySettings.instance.FavoriteScenes != null && SceneSelectionOverlaySettings.instance.FavoriteScenes.Count>0)
+                {
+                    foreach (var favoriteScene in SceneSelectionOverlaySettings.instance.FavoriteScenes)
+                    {
+                        string menuItemPath = "";
+
+                        if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
+                        {
+                            menuItemPath = FavoriteSceneFolderName + "/";
+                        }
+
+                        sceneMenuData.AddItem(FavoriteSceneFolderName, AssetDatabase.GetAssetPath(favoriteScene), menuItemPath);
+                    }
+                }
+            }
             // When the dropdown button is clicked, this method will create a popup menu at the mouse cursor position.
             private void ShowSceneMenu()
             {
