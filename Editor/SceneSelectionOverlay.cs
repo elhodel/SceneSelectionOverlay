@@ -80,7 +80,8 @@ namespace elhodel.SceneSelectionOverlay
                             for (int i = 0; i < list.Count; i++)
                             {
                                 SceneMenuItem item = list[i];
-                                item.UniqueMenuItemName = item.ScenePath.Replace('/', '\\');
+                                string pathWithoutExtension = Path.ChangeExtension(item.ScenePath, null);
+                                item.UniqueMenuItemName = pathWithoutExtension.Replace('/', '\\');
                                 list[i] = item;
                             }
                         }
