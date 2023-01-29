@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-01-29
 ### Added
 - Option to add Favorites to Menu
 - Add shortcut to SceneAssets in Asset Menu to add or remove the selected Scene to the Favorite Scenes
@@ -13,6 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Scenes are now sorted using Natural Order Numerical Sorting
 
-## [0.1.0] - 2023-01-29
+## [0.1.0] - 2023-01-28
 ### Added
 - Inital Release
