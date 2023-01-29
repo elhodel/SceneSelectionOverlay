@@ -91,7 +91,7 @@ namespace elhodel.SceneSelectionOverlay
 
                 private void SortScenes()
                 {
-                    _menuPathSceneMap = _menuPathSceneMap.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.OrderBy(v => v.SceneName).ToList());
+                    _menuPathSceneMap = _menuPathSceneMap.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.OrderByAlphaNumeric(v => v.SceneName).ToList());
                 }
 
                 private void CreateMenuEntry(GenericMenu menu, string key, string currentScenePath, Action<string> onClickCallback, bool addSparatorBefore, bool addSeparatorAfter)
