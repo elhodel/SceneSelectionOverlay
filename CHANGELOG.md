@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Option to Add Build Index in front of Scene Name
+
+### Changed
+
+- Changed order of fields in Settings
+
 ## [0.2.0] - 2023-01-29
+
 ### Added
 - Option to add Favorites to Menu
 - Add shortcut to SceneAssets in Asset Menu to add or remove the selected Scene to the Favorite Scenes

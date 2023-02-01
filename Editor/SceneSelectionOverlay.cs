@@ -48,6 +48,14 @@ namespace elhodel.SceneSelectionOverlay
                     SceneName = Path.GetFileNameWithoutExtension(scenePath);
                     UniqueMenuItemName = SceneName;
                 }
+
+                public SceneMenuItem(string scenePath, string menuItemPath, string menuItemName)
+                {
+                    ScenePath = scenePath;
+                    MenuItemPath = menuItemPath;
+                    SceneName = menuItemName;
+                    UniqueMenuItemName = SceneName;
+                }
             }
 
             private class SceneMenuData
@@ -207,8 +215,12 @@ namespace elhodel.SceneSelectionOverlay
             {
                 if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide)
                 {
-                    foreach (var builderScene in EditorBuildSettings.scenes)
+
+                    for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+
                     {
+                        var builderScene = EditorBuildSettings.scenes[i];
+
                         string menuItemPath = "";
 
                         if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
@@ -216,14 +228,27 @@ namespace elhodel.SceneSelectionOverlay
                             menuItemPath = BuildSceneFolderName + "/";
                         }
 
-                        sceneMenuData.AddItem(BuildSceneFolderName, builderScene.path, menuItemPath);
+                        SceneMenuItem sceneMenuItem;
+
+                        if (SceneSelectionOverlaySettings.instance.AddBuildIndex)
+                        {
+
+                            string menuItemName = $"{i}: {Path.GetFileNameWithoutExtension(builderScene.path)}";
+
+                            sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath, menuItemName);
+                        }
+                        else
+                        {
+                            sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath);
+                        }
+                        sceneMenuData.AddItem(BuildSceneFolderName, sceneMenuItem);
                     }
                 }
             }
 
             private void LoadFavoriteScenes(SceneMenuData sceneMenuData)
             {
-                if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide && SceneSelectionOverlaySettings.instance.FavoriteScenes != null && SceneSelectionOverlaySettings.instance.FavoriteScenes.Count>0)
+                if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide && SceneSelectionOverlaySettings.instance.FavoriteScenes != null && SceneSelectionOverlaySettings.instance.FavoriteScenes.Count > 0)
                 {
                     foreach (var favoriteScene in SceneSelectionOverlaySettings.instance.FavoriteScenes)
                     {

@@ -27,21 +27,28 @@ namespace elhodel.SceneSelectionOverlay
             public string FileNameFilter;
         }
 
-        [Tooltip("How Scenes that are Currently added added as Scenes in Build should be displayed in Menu")]
-        public ShowOption BuildScenesShowOption = ShowOption.Nested;
-
-        [Tooltip("How Scenes that don't match any filters in SceneGroups should be displayed in Menu")]
-        public ShowOption UngroupedScenesShowOption = ShowOption.Nested;
-
-        [SerializeField]
-        [Tooltip("Groups of Scenes that should be be added to Menu")]
-        public List<SceneGroup> SceneGroups = new List<SceneGroup>();
-
+        [Header("Favorites")]
         [Tooltip("How Favorite Scenes should be displayed in Menu")]
         public ShowOption FavoriteScenesShowOption = ShowOption.Flat;
         [Tooltip("Favorite Scenes that should be displayed at the Top of the Menu")]
         public List<SceneAsset> FavoriteScenes = new List<SceneAsset>();
 
+        [Header("Build Scenes")]
+        [Tooltip("How Scenes that are Currently added added as Scenes in Build should be displayed in Menu")]
+        public ShowOption BuildScenesShowOption = ShowOption.Nested;
+
+        [Tooltip("Prefix Build Index in the Menu to the Scene Name")]
+        public bool AddBuildIndex = true;
+
+        [Header("Scene Groups")]
+        [SerializeField]
+        [Tooltip("Groups of Scenes that should be be added to Menu")]
+        public List<SceneGroup> SceneGroups = new List<SceneGroup>();
+
+
+        [Header("Other Scenes")]
+        [Tooltip("How Scenes that don't match any filters in SceneGroups should be displayed in Menu")]
+        public ShowOption UngroupedScenesShowOption = ShowOption.Nested;
 
         internal void Save()
         {
