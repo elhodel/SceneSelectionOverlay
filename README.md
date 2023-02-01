@@ -2,10 +2,46 @@
 
 This package for Unity provides a Toolbar Overlay for the SceneView to easily change between Scenes.
 
+![OverlayMenu_Preview](Documentation~/Screenshots/OverlayMenu_Preview.png)
+
+# How To Use
+
+1. Enable Overlay:  
+   Click in the Scene View and press the Spacebar.  
+   ![Overlay_Enabling](Documentation~/Screenshots/Overlay_Enabling.png)
+   Select "Scene Selection" in the appearing Overlay  
+2. (optional) Configure Favorite Scenes, Define Groups and finetune Appearance:  
+   Go to the ProjectSettings -> Tools -> Scene Selection Overlay  
+   ![Settings](Documentation~/Screenshots/Settings.png)
+3. Click on the Unity Scene Button in the SceneView Toolbar to open the Menu
+4. Navigate the Menu and select the Scene you want to open.
 
 # Features
 
+## Favorite Scenes
+
+Add your favorite Scenes in the Settings so they always appear at the top of the Overlay Menu.
+
+`FavoriteScenesShowOptions` allows you to select how the favorites should be handled.
+
+* Hidden: Don't Show Scenes
+* Flat: Show Scenes directly in the Root of the Menu
+* Nested: Show Scenes in the Submenu "Favorites"  
+
+Scenes can easily be added to the Favorites with right clicking the SceneAsset in the Project Window and Select "Add/Remove to Favorites"
+
+## Show Scenes Added to Build
+
+`Build Scenes Show Option` defines how Scenes added to the Build should be displayed: 
+
+* Hidden: Don't Show Scenes
+* Flat: Show Scenes directly in the Root of the Menu
+* Nested: Show Scenes in the Submenu "Build"  
+
+`Add Build Index` toggles if the Scene Name should be prefixed with the Build Index
+
 ## Groups 
+
 The Scenes can be grouped as needed by filters that can be defined in the Settings.
 Go to ProjectSettings -> Tools -> Scene Selection Overlay to configure your Groups.
 
@@ -18,7 +54,7 @@ You can use "/" to create different Submenus.
 
 ### Folder Filter
 
-Regex Filter for the File Path excluding the FileName. Always use "/" as Directory Seperator.
+Regex Filter for the File Path excluding the File Name. Always use "/" as Directory Separator.
 
 The Regex evaluation ignores Case. 
 
@@ -34,24 +70,6 @@ This Setting defines how Scenes that did not match any group should be displayed
 * Hidden: Don't Show Scenes
 * Flat: Show Scenes directly in the Root of the Menu
 * Nested: Show Scenes in the Submenu "Others"  
-
-## Show Scenes Added to Build
-`Build Scenes Show Option` defines how Scenes added to the Build should be displayed: 
-* Hidden: Don't Show Scenes
-* Flat: Show Scenes directly in the Root of the Menu
-* Nested: Show Scenes in the Submenu "Build"  
-
-## Favorite Scenes
-
-Add your favorite Scenes in the Settings so they always appear at the top of the Overlay Menu.
-
-FavoriteScenesShowOptions allows you to select how the favorites should be handled.
-
-* Hidden: Don't Show Scenes
-* Flat: Show Scenes directly in the Root of the Menu
-* Nested: Show Scenes in the Submenu "Favorites"  
-
-Scenes can easily be added to the Favorites with right clicking the SceneAsset in the Project Window and Select "Add/Remove to Favorites"
 
 
 # Installing with Unity Package Manager
