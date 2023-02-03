@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added option to invert Filters of SceneGroup by Adding a Exclamation Mark '!' at the beginning of the Filter.
+
 ### Changed
 
 - Cleaned up API, made lots of unnecessarily public stuff internal

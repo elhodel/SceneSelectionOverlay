@@ -58,10 +58,14 @@ Regex Filter for the File Path excluding the File Name. Always use "/" as Direct
 
 The Regex evaluation ignores Case. 
 
+The Filter can be inverted by adding a Exclamation Mark '!' at the beginning of the Filter.
+
 ### File Name Filter
 Regex Filter for the File Name.
 
 The Regex evaluation ignores Case.
+
+The Filter can be inverted by adding a Exclamation Mark '!' at the beginning of the Filter.
 
 ### Ungrouped Scenes Show Option 
 

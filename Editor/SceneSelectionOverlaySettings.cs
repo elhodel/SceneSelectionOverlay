@@ -21,12 +21,55 @@ namespace elhodel.SceneSelectionOverlay
         [System.Serializable]
         public struct SceneGroup
         {
-            [Tooltip("Name of Group. \nUse \"/\" to seperate nested Menus")]
+            [Tooltip("Name of Group. \nUse \"/\" to seperate Submenus")]
             public string Name;
-            [Tooltip("Regex Filter for the File Path excluding the FileName. Use \"/\" as Directory Seperator. Match is Case Insensitive")]
+            [Tooltip("Regex Filter for the File Path excluding the FileName. \n" +
+                "Use \"/\" as Directory Seperator. Match is Case Insensitive \n" +
+                "Use an exclamation Mark '!' as the first character to invert the Filter")]
             public string FolderFilter;
-            [Tooltip("Regex Filter for the File Name. Match is Case Insensitive")]
+            [Tooltip("Regex Filter for the File Name. Match is Case Insensitive \n" +
+                "Use an exclamation Mark '!' as the first character to invert the Filter")]
             public string FileNameFilter;
+
+           
+
+            public bool CheckFolderForMatch(string path)
+            {
+                return CheckForMatch(path, FolderFilter);
+
+            }
+
+            public bool CheckNameForMatch(string name)
+            {
+                return CheckForMatch(name, FileNameFilter);
+            }
+
+            private bool CheckForMatch(string stringToTest, string filter)
+            {
+                if (string.IsNullOrEmpty(filter))
+                {
+                    return true;
+                }
+
+                if (IsFilterNegated(filter, out string cleanFilter))
+                {
+                    return !Regex.IsMatch(stringToTest, cleanFilter, RegexOptions.IgnoreCase);
+                }
+
+                return Regex.IsMatch(stringToTest, filter, RegexOptions.IgnoreCase);
+            }
+
+            private bool IsFilterNegated(string filter, out string cleanFilter)
+            {
+                if (filter.StartsWith('!'))
+                {
+                    cleanFilter = filter.TrimStart('!');
+                    return true;
+                }
+                cleanFilter = null;
+                return false;
+            }
+
         }
 
         #endregion

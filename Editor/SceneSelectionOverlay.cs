@@ -180,9 +180,10 @@ namespace elhodel.SceneSelectionOverlay
                     bool isInGroup = false;
                     foreach (var sceneGroup in SceneSelectionOverlaySettings.instance.SceneGroups)
                     {
-                        bool pathMatches = string.IsNullOrEmpty(sceneGroup.FolderFilter) || Regex.IsMatch(pathWithoutName, sceneGroup.FolderFilter, RegexOptions.IgnoreCase);
 
-                        bool nameMatches = string.IsNullOrEmpty(sceneGroup.FileNameFilter) || Regex.IsMatch(sceneName, sceneGroup.FileNameFilter, RegexOptions.IgnoreCase);
+                        bool pathMatches = sceneGroup.CheckFolderForMatch(pathWithoutName);
+
+                        bool nameMatches = sceneGroup.CheckNameForMatch(sceneName);
                         if (pathMatches && nameMatches)
                         {
 
