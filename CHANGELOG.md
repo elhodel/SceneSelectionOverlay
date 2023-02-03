@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Cleaned up API, made lots of unnecessarily public stuff internal
+
+### Fixed
+
+- Changes in Settings now get reliably saved when changing them with code and not with the GUI
+
 ## [0.3.1] - 2023-02-03
 
 ### Fixed

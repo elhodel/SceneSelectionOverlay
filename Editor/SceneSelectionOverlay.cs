@@ -14,7 +14,7 @@ namespace elhodel.SceneSelectionOverlay
 {
     [Overlay(typeof(SceneView), "Scene Selection")]
     [Icon(IconPath)]
-    public class SceneSelectionOverlay : ToolbarOverlay
+    internal class SceneSelectionOverlay : ToolbarOverlay
     {
         public const string IconPath = "Packages/ch.elhodel.scene-selection-overlay/Editor/Icons/SceneAssetIcon.png";
         public const string ProIconPath = "Packages/ch.elhodel.scene-selection-overlay/Editor/Icons/d_SceneAssetIcon.png";
@@ -213,54 +213,55 @@ namespace elhodel.SceneSelectionOverlay
 
             private void LoadBuildScenes(SceneMenuData sceneMenuData)
             {
-                if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide)
+                if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Hide)
                 {
+                    return;
+                }
 
-                    for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+                for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+                {
+                    var builderScene = EditorBuildSettings.scenes[i];
 
+                    string menuItemPath = "";
+
+                    if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
                     {
-                        var builderScene = EditorBuildSettings.scenes[i];
-
-                        string menuItemPath = "";
-
-                        if (SceneSelectionOverlaySettings.instance.BuildScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
-                        {
-                            menuItemPath = BuildSceneFolderName + "/";
-                        }
-
-                        SceneMenuItem sceneMenuItem;
-
-                        if (SceneSelectionOverlaySettings.instance.AddBuildIndex)
-                        {
-
-                            string menuItemName = $"{i}: {Path.GetFileNameWithoutExtension(builderScene.path)}";
-
-                            sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath, menuItemName);
-                        }
-                        else
-                        {
-                            sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath);
-                        }
-                        sceneMenuData.AddItem(BuildSceneFolderName, sceneMenuItem);
+                        menuItemPath = BuildSceneFolderName + "/";
                     }
+
+                    SceneMenuItem sceneMenuItem;
+
+                    if (SceneSelectionOverlaySettings.instance.DoAddBuildIndex)
+                    {
+
+                        string menuItemName = $"{i}: {Path.GetFileNameWithoutExtension(builderScene.path)}";
+
+                        sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath, menuItemName);
+                    }
+                    else
+                    {
+                        sceneMenuItem = new SceneMenuItem(builderScene.path, menuItemPath);
+                    }
+                    sceneMenuData.AddItem(BuildSceneFolderName, sceneMenuItem);
                 }
             }
 
             private void LoadFavoriteScenes(SceneMenuData sceneMenuData)
             {
-                if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption != SceneSelectionOverlaySettings.ShowOption.Hide && SceneSelectionOverlaySettings.instance.FavoriteScenes != null && SceneSelectionOverlaySettings.instance.FavoriteScenes.Count > 0)
+                if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Hide || SceneSelectionOverlaySettings.instance.FavoriteScenes.IsNullOrEmpty())
                 {
-                    foreach (var favoriteScene in SceneSelectionOverlaySettings.instance.FavoriteScenes)
+                    return;
+                }
+                foreach (var favoriteScene in SceneSelectionOverlaySettings.instance.FavoriteScenes)
+                {
+                    string menuItemPath = "";
+
+                    if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
                     {
-                        string menuItemPath = "";
-
-                        if (SceneSelectionOverlaySettings.instance.FavoriteScenesShowOption == SceneSelectionOverlaySettings.ShowOption.Nested)
-                        {
-                            menuItemPath = FavoriteSceneFolderName + "/";
-                        }
-
-                        sceneMenuData.AddItem(FavoriteSceneFolderName, AssetDatabase.GetAssetPath(favoriteScene), menuItemPath);
+                        menuItemPath = FavoriteSceneFolderName + "/";
                     }
+
+                    sceneMenuData.AddItem(FavoriteSceneFolderName, AssetDatabase.GetAssetPath(favoriteScene), menuItemPath);
                 }
             }
             // When the dropdown button is clicked, this method will create a popup menu at the mouse cursor position.

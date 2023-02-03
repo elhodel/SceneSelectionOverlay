@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Linq;
 
 namespace elhodel.SceneSelectionOverlay
 {
     [FilePath("ProjectSettings/SceneSelectionOverlaySettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class SceneSelectionOverlaySettings : ScriptableSingleton<SceneSelectionOverlaySettings>
     {
+        #region Class and Enum Definitions
         public enum ShowOption
         {
             Hide,
             Flat,
             Nested,
         }
-
 
         [System.Serializable]
         public struct SceneGroup
@@ -28,49 +29,202 @@ namespace elhodel.SceneSelectionOverlay
             public string FileNameFilter;
         }
 
+        #endregion
+
+        #region Serialized Fields
+
         [Header("Favorites")]
+        [SerializeField]
         [Tooltip("How Favorite Scenes should be displayed in Menu")]
-        public ShowOption FavoriteScenesShowOption = ShowOption.Flat;
+        private ShowOption _favoriteScenesShowOption = ShowOption.Flat;
+
         [Tooltip("Favorite Scenes that should be displayed at the Top of the Menu")]
-        public List<SceneAsset> FavoriteScenes = new List<SceneAsset>();
+        [SerializeField]
+        private List<SceneAsset> _favoriteScenes = new List<SceneAsset>();
 
         [Header("Build Scenes")]
         [Tooltip("How Scenes that are Currently added added as Scenes in Build should be displayed in Menu")]
-        public ShowOption BuildScenesShowOption = ShowOption.Nested;
+        [SerializeField]
+        private ShowOption _buildScenesShowOption = ShowOption.Nested;
 
         [Tooltip("Prefix Build Index in the Menu to the Scene Name")]
-        public bool AddBuildIndex = true;
+        [SerializeField]
+        private bool _doAddBuildIndex = true;
 
         [Header("Scene Groups")]
         [SerializeField]
         [Tooltip("Groups of Scenes that should be be added to Menu")]
-        public List<SceneGroup> SceneGroups = new List<SceneGroup>();
-
+        private List<SceneGroup> _sceneGroups = new List<SceneGroup>();
 
         [Header("Other Scenes")]
         [Tooltip("How Scenes that don't match any filters in SceneGroups should be displayed in Menu")]
-        public ShowOption UngroupedScenesShowOption = ShowOption.Nested;
+        [SerializeField]
+        private ShowOption _ungroupedScenesShowOption = ShowOption.Nested;
 
+        #endregion
 
+        #region Properties
 
-        public void AddFavoriteScene(SceneAsset sceneToAdd)
+        /// <summary>
+        /// How Favorite Scenes should be displayed in Menu
+        /// </summary>
+        public ShowOption FavoriteScenesShowOption
         {
-            if (FavoriteScenes.Contains(sceneToAdd))
+            get { return _favoriteScenesShowOption; }
+            set
             {
-                return;
-            }
-            FavoriteScenes.Add(sceneToAdd);
-            Save();
-        }
-
-        public void RemoveFavoriteScene(SceneAsset sceneToAdd)
-        {
-            if (FavoriteScenes.Contains(sceneToAdd))
-            {
-                FavoriteScenes.Remove(sceneToAdd);
+                _favoriteScenesShowOption = value;
                 Save();
             }
         }
+
+        /// <summary>
+        /// Get Favorite Scenes that should be displayed at the Top of the Menu (as ReadOnly)
+        /// </summary>
+        public IReadOnlyList<SceneAsset> FavoriteScenes => _favoriteScenes;
+
+        /// <summary>
+        /// How Scenes that are Currently added added as Scenes in Build should be displayed in Menu
+        /// </summary>
+        public ShowOption BuildScenesShowOption
+        {
+            get { return _buildScenesShowOption; }
+            set
+            {
+                _buildScenesShowOption = value;
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// Whether to Prefix Build Index in the Menu to the Scene Name
+        /// </summary>
+        public bool DoAddBuildIndex
+        {
+            get { return _doAddBuildIndex; }
+            set
+            {
+                _doAddBuildIndex = value;
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// Groups of Scenes that should be be added to Menu
+        /// </summary>
+        public IReadOnlyList<SceneGroup> SceneGroups => _sceneGroups;
+
+        /// <summary>
+        /// How Scenes that don't match any filters in SceneGroups should be displayed in Menu
+        /// </summary>
+        public ShowOption UngroupedScenesShowOption
+        {
+            get { return _ungroupedScenesShowOption; }
+            set
+            {
+                _ungroupedScenesShowOption = value;
+                Save();
+            }
+        }
+
+        #endregion
+
+        #region Public Methodes
+
+        /// <summary>
+        /// Add a Scene to the Favorite Scenes
+        /// </summary>
+        /// <param name="sceneToAdd">The SceneAsset of the Scene that should be Added</param>
+        public void AddFavoriteScene(SceneAsset sceneToAdd)
+        {
+            if (_favoriteScenes.Contains(sceneToAdd))
+            {
+                return;
+            }
+            _favoriteScenes.Add(sceneToAdd);
+            Save();
+        }
+
+        /// <summary>
+        /// Remove a Scene from the Favorite Scenes
+        /// </summary>
+        /// <param name="sceneToAdd">The SceneAsset of the Scene that should be Removed</param>
+        public void RemoveFavoriteScene(SceneAsset sceneToRemove)
+        {
+            if (_favoriteScenes.Contains(sceneToRemove))
+            {
+                _favoriteScenes.Remove(sceneToRemove);
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// Clear all Scenes from the Favorited Scenes
+        /// </summary>
+        public void ClearFavoriteScenes()
+        {
+            _favoriteScenes.Clear();
+            Save();
+        }
+
+        /// <summary>
+        /// Add a <see cref="SceneGroup"/> to create a new Group in the Menu.
+        /// Duplicates are not allowed and are ignored
+        /// </summary>
+        /// <param name="sceneGroup"><see cref="SceneGroup"/> to add</param>
+        public void AddSceneGroup(SceneGroup sceneGroup)
+        {
+            if (_sceneGroups.Contains(sceneGroup))
+            {
+                return;
+            }
+            _sceneGroups.Add(sceneGroup);
+            Save();
+        }
+
+        /// <summary>
+        /// Remove the <see cref="SceneGroup"/> with the given Name from the Menu
+        /// </summary>
+        /// <param name="sceneGroupName">Name of the <see cref="SceneGroup"/> to remove</param>
+        public void RemoveSceneGroup(string sceneGroupName)
+        {
+            int indexToRemove = _sceneGroups.FindIndex(g => g.Name == sceneGroupName);
+            if (indexToRemove < 0)
+            {
+                return;
+            }
+            _sceneGroups.RemoveAt(indexToRemove);
+            Save();
+        }
+
+        /// <summary>
+        /// Change a <see cref="SceneGroup"/> to a new one
+        /// </summary>
+        /// <param name="sceneGroupToEdit">>Name of the <see cref="SceneGroup"/> to remove</param>
+        /// <param name="group"></param>
+        public void ChangeSceneGroup(string sceneGroupToEdit, SceneGroup group)
+        {
+            int index = _sceneGroups.FindIndex(g => g.Name == sceneGroupToEdit);
+            if (index < 0)
+            {
+                return;
+            }
+            _sceneGroups[index] = group;
+            Save();
+        }
+
+        /// <summary>
+        /// Clear all Scene Group
+        /// </summary>
+        public void ClearAllSceneGroups()
+        {
+            _sceneGroups.Clear();
+            Save();
+        }
+
+        #endregion
+
+        #region Internal and Private Methodes
 
         internal void EnableEditing()
         {
@@ -84,12 +238,16 @@ namespace elhodel.SceneSelectionOverlay
             Save(true);
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             EnableEditing();
         }
 
+        #endregion
+    }
 
+    internal static class SceneSelectionOverlayContextMenus
+    {
         private const string _addFavoriteMenuItemPath = "Assets/Add to Favorite";
         private const int _favoriteMenuItemOrder = 2000;
         [MenuItem(_addFavoriteMenuItemPath, false, _favoriteMenuItemOrder)]
@@ -127,9 +285,8 @@ namespace elhodel.SceneSelectionOverlay
 
     }
 
-
     [CustomEditor(typeof(SceneSelectionOverlaySettings))]
-    public class SceneSelectionOverlaySettingsEditor : Editor
+    internal class SceneSelectionOverlaySettingsEditor : Editor
     {
         public override void OnInspectorGUI()
         {

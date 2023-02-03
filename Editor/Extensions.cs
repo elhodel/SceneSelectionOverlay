@@ -33,5 +33,10 @@ namespace elhodel.SceneSelectionOverlay
 
             return source.OrderBy(i => Regex.Replace(selector(i), @"\d+", m => m.Value.PadLeft(max, '0')));
         }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
+        {
+            return list == null || list.Count() == 0;
+        }
     }
 }

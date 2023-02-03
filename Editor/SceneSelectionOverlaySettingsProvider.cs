@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace elhodel.SceneSelectionOverlay
 {
-    public class SceneSelectionOverlaySettingsProvider : SettingsProvider
+    internal class SceneSelectionOverlaySettingsProvider : SettingsProvider
     {
         public const string Path = "Tools/Scene Selection Overlay";
 
