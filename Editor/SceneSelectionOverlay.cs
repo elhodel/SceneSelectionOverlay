@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.Toolbars;
-using UnityEditor.Overlays;
-using System.Linq;
-using System.IO;
-using UnityEditor.SceneManagement;
-using System.Text.RegularExpressions;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.Overlays;
+using UnityEditor.SceneManagement;
+using UnityEditor.Toolbars;
+using UnityEngine;
 
 namespace elhodel.SceneSelectionOverlay
 {
