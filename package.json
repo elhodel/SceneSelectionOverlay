@@ -1,6 +1,6 @@
 {
   "name": "ch.elhodel.scene-selection-overlay",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "displayName": "Scene Selection Overlay",
   "description": "This package provides an Toolbar Overlay for the SceneView to easily change between Scenes.",
   "unity": "2021.3",
