@@ -9,12 +9,13 @@ namespace elhodel.SceneSelectionOverlay
     [FilePath("ProjectSettings/SceneSelectionOverlaySettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class SceneSelectionOverlaySettings : ScriptableSingleton<SceneSelectionOverlaySettings>
     {
-        void OnEnable()
+        public enum ShowOption
         {
-            /// Make ScriptableSingleton Editable, this is disabled by default
-            /// https://forum.unity.com/threads/scriptablesingleton-disabled-serializedproperty-in-editor-window.1156826/#post-7421990
-            hideFlags &= ~HideFlags.NotEditable;
+            Hide,
+            Flat,
+            Nested,
         }
+
 
         [System.Serializable]
         public struct SceneGroup
@@ -50,10 +51,7 @@ namespace elhodel.SceneSelectionOverlay
         [Tooltip("How Scenes that don't match any filters in SceneGroups should be displayed in Menu")]
         public ShowOption UngroupedScenesShowOption = ShowOption.Nested;
 
-        internal void Save()
-        {
-            Save(true);
-        }
+
 
         public void AddFavoriteScene(SceneAsset sceneToAdd)
         {
@@ -74,11 +72,21 @@ namespace elhodel.SceneSelectionOverlay
             }
         }
 
-        public enum ShowOption
+        internal void EnableEditing()
         {
-            Hide,
-            Flat,
-            Nested,
+            /// Make ScriptableSingleton Editable, this is disabled by default
+            /// https://forum.unity.com/threads/scriptablesingleton-disabled-serializedproperty-in-editor-window.1156826/#post-7421990
+            hideFlags &= ~HideFlags.NotEditable;
+        }
+
+        internal void Save()
+        {
+            Save(true);
+        }
+
+        void OnEnable()
+        {
+            EnableEditing();
         }
 
 

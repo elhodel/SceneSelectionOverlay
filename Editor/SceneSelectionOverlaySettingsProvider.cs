@@ -21,6 +21,7 @@ namespace elhodel.SceneSelectionOverlay
         {
             base.OnActivate(searchContext, rootElement);
             Undo.undoRedoPerformed += SaveUndo;
+            SceneSelectionOverlaySettings.instance.EnableEditing();
         }
 
         private void SaveUndo()
