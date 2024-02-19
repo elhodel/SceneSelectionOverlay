@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2024-02-19
+
+### Added
+
+- Added Setting to Toggle whether the Toolbar Overlay Name should be displayed in the Toolbar Overlay Dropdown Button or only the icon (the new default)
+
 ## [0.4.0] - 2023-02-03
 
 ### Added

@@ -152,7 +152,15 @@ namespace elhodel.SceneSelectionOverlay
 
             SceneSelectionDropdownToggle()
             {
-                text = "Scene Selection";
+                if (SceneSelectionOverlaySettings.instance.OnlyShowIconInToolbar)
+                {
+                    text = "";
+                }
+                else
+                {
+                    text = "Scene Selection";
+                }
+
                 tooltip = "Switch to the selected Scene";
 
                 icon = AssetDatabase.LoadAssetAtPath<Texture2D>(SkinnedIconPath);

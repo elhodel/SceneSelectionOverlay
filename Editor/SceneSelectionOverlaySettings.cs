@@ -104,6 +104,12 @@ namespace elhodel.SceneSelectionOverlay
         [SerializeField]
         private ShowOption _ungroupedScenesShowOption = ShowOption.Nested;
 
+        [Header("Display Settings")]
+        [Tooltip("Only show Scene Icon in the Toolbar without the Name \"Scene Selection\" \n" +
+            "Will update on the next update of the Toolbar. Toggle or move the Scene Selection Toolbar Overlay to force an update.")]
+        [SerializeField]
+        private bool _onlyShowIconInToolbar = true;
+
         #endregion
 
         #region Properties
@@ -166,6 +172,16 @@ namespace elhodel.SceneSelectionOverlay
             set
             {
                 _ungroupedScenesShowOption = value;
+                Save();
+            }
+        }
+
+        public bool OnlyShowIconInToolbar
+        {
+            get { return _onlyShowIconInToolbar; }
+            set
+            {
+                _onlyShowIconInToolbar = value;
                 Save();
             }
         }
